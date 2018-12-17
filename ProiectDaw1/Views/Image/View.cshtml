@@ -1,0 +1,60 @@
+﻿@model ProiectDaw1.Models.Image
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>View</h2>
+
+<div>
+    <h4>Image</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.Label("Picture", "Picture");
+        </dt>
+        <dd>
+            @{
+                var base64 = Convert.ToBase64String(Model.ByteString);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+            }
+
+            <img src="@imgSrc" width="100" height="100" />
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Descriere)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descriere)
+        </dd>
+        <form method="post" action="/Image/AddComment">
+            <input type="hidden" name="Comment.ImageId" value="@Model.ImageId" />
+            <br />
+            <textarea rows="4" cols="50" name="Comment.Comment"></textarea>
+            <button type="submit">Adauga Comentariu</button>
+        </form>
+        <br>
+        @{
+            if (Model.Comments.ToList() != null)
+            {
+                foreach (var item in Model.Comments.ToList())
+                {
+                    <dt>
+                        @Html.DisplayFor(modelitem => item.ProfileId)
+                    </dt>
+                    
+                    <dd>
+                        @Html.DisplayFor(modelitem => item.comment)
+                    </dd>
+                }
+            }
+        }
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ImageId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

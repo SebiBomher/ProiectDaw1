@@ -1,0 +1,44 @@
+﻿@model ProiectDaw1.Models.Image
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Image</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.Label("Picture", "Picture");
+        </dt>
+        <dd>
+            @{
+                var base64 = Convert.ToBase64String(Model.ByteString);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+            }
+
+            <img src="@imgSrc" width="100" height="100" />
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Descriere)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descriere)
+        </dd>
+
+    </dl>
+
+    <form method="post" action="/Image/Delete1/@Model.ImageId">
+        @Html.HttpMethodOverride(HttpVerbs.Delete)
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+        </form>
+</div>
