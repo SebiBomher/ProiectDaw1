@@ -9,11 +9,14 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using ProiectDaw1.Models;
 using static ProiectDaw1.Models.Profile;
-
+using static ProiectDaw1.Models.EnumerableExtension;
 namespace ProiectDaw1.Controllers
 {
+
     public class ImageController : Controller
     {
+
+        
         private Image.ImageDBContext db = new Image.ImageDBContext();
         private ProfileDBContext db1 = new ProfileDBContext();
         // GET: Image
@@ -43,23 +46,37 @@ namespace ProiectDaw1.Controllers
         }
         public ActionResult View(int id)
         {
+            int i = 0;
+            var temp = "";
+            var temp1 = "";
+            List<string> commentNames = new List<string>();
+            List<string> fullNames = new List<string>();
             Image image = new Image();
             image = db.Images.Where(t => t.ImageId == id).FirstOrDefault();
             var profiles = from profile in db1.Profiles orderby profile.ProfileId select profile;
-            
+
             var ProfileNames = profiles.Select(p => p.Name).ToArray();
-            var ProfileSurNames = profiles.Select(p => p.Prename).Concat(ProfileNames).ToArray();
+            var ProfileSurNames = profiles.Select(p => p.Prename).ToArray();
+            for (i = 0; i < ProfileNames.Length; i++)
+            {
+                temp = ProfileSurNames.ElementAtOrDefault(i).ToString();
+                temp1 = ProfileNames.ElementAtOrDefault(i).ToString();
+                var fullnames = temp + " " + temp1;
+                fullNames.Add(fullnames);
+            }
+
             var ProfileIdsMany = profiles.Select(p => p.ProfileId).ToArray();
             var ProfileIds = image.Comments.Select(p => p.ProfileId).ToArray();
-            int i = 0;
-            foreach (int ids in ProfileIdsMany)
+            
+            foreach (int ProfileId in ProfileIds)
             {
-                foreach (int ProfileId in ProfileIds)
+                foreach (int ids in ProfileIdsMany)
                 {
+                
                     if (ids == ProfileId)
                     {
-                        //commentNames.Select(i) = ;
-                        //i++;
+                        int number = ProfileIds.IndexOf(ProfileId);
+                        commentNames.Add(fullNames.ElementAt(number).ToString());
                     }
                 }
             }

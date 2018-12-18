@@ -9,6 +9,8 @@ namespace ProiectDaw1.Models
     public class ImageCustomClass
     {
         public Image image { get; set; }
-        public string[] commentNames { get; set; }
+        public List<string> commentNames { get; set; }
+
+        
     }
 }
