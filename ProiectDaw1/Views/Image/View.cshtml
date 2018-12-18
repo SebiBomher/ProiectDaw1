@@ -10,16 +10,19 @@
     <h4>Image</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.Label("Picture", "Picture");
-        </dt>
         <dd>
             @{
                 var base64 = Convert.ToBase64String(Model.image.ByteString);
                 var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
             }
 
-            <img src="@imgSrc" width="100" height="100" />
+            <img id="imagine" src="@imgSrc" />
+            <style>
+                .imagine {
+                    max-height: 500;
+                    max-width: 700;
+                }
+            </style>
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.image.Descriere)
@@ -28,12 +31,18 @@
         <dd>
             @Html.DisplayFor(model => model.image.Descriere)
         </dd>
-        <form method="post" action="/Image/AddComment">
-            <input type="hidden" name="Comment.ImageId" value="@Model.image.ImageId" />
-            <br />
-            <textarea rows="4" cols="50" name="Comment.Comment"></textarea>
-            <button type="submit">Adauga Comentariu</button>
-        </form>
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+                <form method="post" action="/Image/AddComment">
+                    <input type="hidden" name="Comment.ImageId" value="@Model.image.ImageId" />
+                    <br />
+                    <textarea rows="4" cols="50" name="Comment.Comment"></textarea>
+                    <button type="submit">Adauga Comentariu</button>
+                </form>
+            }
+        }
+
         <br>
         @{
             if (Model.image.Comments.ToList() != null)
@@ -41,7 +50,7 @@
                 int i = 0;
                 foreach (var item in Model.image.Comments.ToList())
                 {
-                    
+
                     <dt>
                         @Html.DisplayFor(modelitem => Model.commentNames[i])
                     </dt>

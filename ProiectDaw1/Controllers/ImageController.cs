@@ -54,29 +54,33 @@ namespace ProiectDaw1.Controllers
             Image image = new Image();
             image = db.Images.Where(t => t.ImageId == id).FirstOrDefault();
             var profiles = from profile in db1.Profiles orderby profile.ProfileId select profile;
-
-            var ProfileNames = profiles.Select(p => p.Name).ToArray();
-            var ProfileSurNames = profiles.Select(p => p.Prename).ToArray();
-            for (i = 0; i < ProfileNames.Length; i++)
+            if (image.Comments.ToList() != null)
             {
-                temp = ProfileSurNames.ElementAtOrDefault(i).ToString();
-                temp1 = ProfileNames.ElementAtOrDefault(i).ToString();
-                var fullnames = temp + " " + temp1;
-                fullNames.Add(fullnames);
-            }
 
-            var ProfileIdsMany = profiles.Select(p => p.ProfileId).ToArray();
-            var ProfileIds = image.Comments.Select(p => p.ProfileId).ToArray();
-            
-            foreach (int ProfileId in ProfileIds)
-            {
-                foreach (int ids in ProfileIdsMany)
+
+                var ProfileNames = profiles.Select(p => p.Name).ToArray();
+                var ProfileSurNames = profiles.Select(p => p.Prename).ToArray();
+                for (i = 0; i < ProfileNames.Length; i++)
                 {
-                
-                    if (ids == ProfileId)
+                    temp = ProfileSurNames.ElementAtOrDefault(i).ToString();
+                    temp1 = ProfileNames.ElementAtOrDefault(i).ToString();
+                    var fullnames = temp + " " + temp1;
+                    fullNames.Add(fullnames);
+                }
+
+                var ProfileIdsMany = profiles.Select(p => p.ProfileId).ToArray();
+                var ProfileIds = image.Comments.Select(p => p.ProfileId).ToArray();
+
+                foreach (int ProfileId in ProfileIds)
+                {
+                    foreach (int ids in ProfileIdsMany)
                     {
-                        int number = ProfileIds.IndexOf(ProfileId);
-                        commentNames.Add(fullNames.ElementAt(number).ToString());
+
+                        if (ids == ProfileId)
+                        {
+                            int number = ProfileIds.IndexOf(ProfileId);
+                            commentNames.Add(fullNames.ElementAt(number).ToString());
+                        }
                     }
                 }
             }
@@ -87,9 +91,10 @@ namespace ProiectDaw1.Controllers
         }
         public ActionResult Index()
         {
-            var images = from image in db.Images orderby image.ImageId select image;
+            var images = from image in db.Images orderby image.ImageId descending select image;
             return View(images);
         }
+        
         [HttpGet]
         public ActionResult Edit(int id)
         {

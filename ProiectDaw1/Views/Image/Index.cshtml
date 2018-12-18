@@ -3,43 +3,21 @@
 @{
     ViewBag.Title = "Index";
 }
+<br>
+</br>
+@{
+    int i = 1;
+    foreach (var item in Model)
+    {
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Add")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.Label("Picture", "Picture");
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Descriere)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @{
-                var base64 = Convert.ToBase64String(item.ByteString);
-                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-            }
-
-            <img src="@imgSrc" width="250" height="250" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descriere)
-        </td>
-        <td>
-
-            @Html.ActionLink("Delete", "Delete", new { id = item.ImageId })|
-            @Html.ActionLink("Details", "View", new { id = item.ImageId })|
-            @Html.ActionLink("Edit", "Edit", new { id = item.ImageId }) |
-        </td>
-    </tr>
+        var base64 = Convert.ToBase64String(item.ByteString);
+        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+        <a href="/Image/View/@item.ImageId"><img src="@imgSrc" width="250" height="250" /></a>
+        if (i % 4 == 0)
+        {
+            <br>
+            </br>
+        }
+        i++;
+    }
 }
-
-</table>

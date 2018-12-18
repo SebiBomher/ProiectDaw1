@@ -31,7 +31,7 @@ namespace ProiectDaw1.Controllers
                 }
                 profile.ProfilePicture.ByteString = memoryStream.ToArray();
             }
-            profile.UserId = User.Identity.GetUserId(); ;
+            profile.UserId = User.Identity.GetUserId();
             profile.nrOfImages = 0;
             db.Images.Add(profile.ProfilePicture);
             db.Profiles.Add(profile);
