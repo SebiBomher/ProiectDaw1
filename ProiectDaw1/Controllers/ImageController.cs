@@ -8,14 +8,14 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using ProiectDaw1.Models;
-
-
+using static ProiectDaw1.Models.Profile;
 
 namespace ProiectDaw1.Controllers
 {
     public class ImageController : Controller
     {
         private Image.ImageDBContext db = new Image.ImageDBContext();
+        private ProfileDBContext db1 = new ProfileDBContext();
         // GET: Image
         [HttpGet]
         public ActionResult Add()
@@ -44,8 +44,29 @@ namespace ProiectDaw1.Controllers
         public ActionResult View(int id)
         {
             Image image = new Image();
-            image = db.Images.Where(x => x.ImageId == id).FirstOrDefault();
-            return View(image);
+            image = db.Images.Where(t => t.ImageId == id).FirstOrDefault();
+            var profiles = from profile in db1.Profiles orderby profile.ProfileId select profile;
+            
+            var ProfileNames = profiles.Select(p => p.Name).ToArray();
+            var ProfileSurNames = profiles.Select(p => p.Prename).Concat(ProfileNames).ToArray();
+            var ProfileIdsMany = profiles.Select(p => p.ProfileId).ToArray();
+            var ProfileIds = image.Comments.Select(p => p.ProfileId).ToArray();
+            int i = 0;
+            foreach (int ids in ProfileIdsMany)
+            {
+                foreach (int ProfileId in ProfileIds)
+                {
+                    if (ids == ProfileId)
+                    {
+                        //commentNames.Select(i) = ;
+                        //i++;
+                    }
+                }
+            }
+            ImageCustomClass imageCustomClass = new ImageCustomClass();
+            imageCustomClass.commentNames = commentNames;
+            imageCustomClass.image = image;
+            return View(imageCustomClass);
         }
         public ActionResult Index()
         {
@@ -97,7 +118,6 @@ namespace ProiectDaw1.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        private Profile.ProfileDBContext db1 = new Profile.ProfileDBContext();
         [HttpPost]
         public ActionResult AddComment(Comment comment)
         {

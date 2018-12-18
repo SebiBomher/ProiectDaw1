@@ -1,4 +1,4 @@
-﻿@model ProiectDaw1.Models.Image
+﻿@model ProiectDaw1.Models.ImageCustomClass
 
 @{
     ViewBag.Title = "View";
@@ -15,38 +15,41 @@
         </dt>
         <dd>
             @{
-                var base64 = Convert.ToBase64String(Model.ByteString);
+                var base64 = Convert.ToBase64String(Model.image.ByteString);
                 var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
             }
 
             <img src="@imgSrc" width="100" height="100" />
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Descriere)
+            @Html.DisplayNameFor(model => model.image.Descriere)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Descriere)
+            @Html.DisplayFor(model => model.image.Descriere)
         </dd>
         <form method="post" action="/Image/AddComment">
-            <input type="hidden" name="Comment.ImageId" value="@Model.ImageId" />
+            <input type="hidden" name="Comment.ImageId" value="@Model.image.ImageId" />
             <br />
             <textarea rows="4" cols="50" name="Comment.Comment"></textarea>
             <button type="submit">Adauga Comentariu</button>
         </form>
         <br>
         @{
-            if (Model.Comments.ToList() != null)
+            if (Model.image.Comments.ToList() != null)
             {
-                foreach (var item in Model.Comments.ToList())
+                int i = 0;
+                foreach (var item in Model.image.Comments.ToList())
                 {
-                    <dt>
-                        @Html.DisplayFor(modelitem => item.ProfileId)
-                    </dt>
                     
+                    <dt>
+                        @Html.DisplayFor(modelitem => Model.commentNames[i])
+                    </dt>
+
                     <dd>
                         @Html.DisplayFor(modelitem => item.comment)
                     </dd>
+                    i++;
                 }
             }
         }
@@ -55,6 +58,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ImageId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.image.ImageId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
