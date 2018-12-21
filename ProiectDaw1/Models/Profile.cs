@@ -23,9 +23,8 @@ namespace ProiectDaw1.Models
         public string Country { get; set; }
         [Required]
         public string Language { get; set;}
-        [Required]
         public virtual Image ProfilePicture { get; set; }
-        public virtual ICollection<Image> Images { get; set; }
+        //public virtual ICollection<Image> Images { get; set; }
         public int nrOfImages { get; set; }
         public string UserId { get; set; }
 
@@ -35,6 +34,11 @@ namespace ProiectDaw1.Models
             public DbSet<Profile> Profiles { get; set; }
             public DbSet<Image> Images { get; set; }
 
+        }
+
+        internal string GetRuleViolations()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace ProiectDaw1.Controllers
 {
     public class ProfileController : Controller
     {
-
+        private ApplicationDbContext db1 = ApplicationDbContext.Create();
         private ProfileDBContext db = new ProfileDBContext();
         public ActionResult New(string id)
         {
@@ -64,14 +64,13 @@ namespace ProiectDaw1.Controllers
                     Profile profile = db.Profiles.Find(id);
                     if (TryUpdateModel(Profile))
                     {
+                        
                         profile.Name = requestProfile.Name;
                         profile.Prename = requestProfile.Prename;
                         profile.Nickname = requestProfile.Nickname;
                         profile.City = requestProfile.City;
                         profile.Country = requestProfile.Country;
                         profile.Language = requestProfile.Language;
-                        profile.ProfilePicture.ByteString = requestProfile.ProfilePicture.ByteString;
-                        profile.ProfilePicture.Descriere = requestProfile.ProfilePicture.Descriere;
                         db.SaveChanges();
                     }
                     return RedirectToAction("Index");

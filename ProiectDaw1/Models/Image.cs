@@ -19,10 +19,9 @@ namespace ProiectDaw1.Models
         public byte[] ByteString { get; set; }
         public string Descriere { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<Categories> Categories { get; set; }
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
-
+        //public Profile profile;
         public class ImageDBContext : DbContext
         {
             public ImageDBContext() : base("DefaultConnection") { }

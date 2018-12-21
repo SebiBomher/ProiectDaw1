@@ -6,82 +6,83 @@
 
 <h2>View</h2>
 
-<div>
-    <h4>Profile</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ProfilePicture)
-        </dt>
+    <div>
+        <h4>Profile</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ProfilePicture)
+            </dt>
 
-        <dd>
-            @{
-                var base64 = Convert.ToBase64String(Model.ProfilePicture.ByteString);
-                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-            }
+            <dd>
+                @{
+                    var base64 = Convert.ToBase64String(Model.ProfilePicture.ByteString);
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                }
 
-            <img src="@imgSrc" width="100" height="100" />
-        </dd>
+                <img src="@imgSrc" width="100" height="100" />
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Prename)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Prename)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Prename)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Prename)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Nickname)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Nickname)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Nickname)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Nickname)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.City)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.City)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.City)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Country)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Country)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Country)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Country)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Language)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Language)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Language)
-        </dd>
-        <dt>
-            @Html.Label("Add New Image")
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Language)
+            </dd>
+            <dt>
+                @Html.Label("Add New Image")
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Language)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Language)
+            </dd>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ProfileId }) |
-    @Html.ActionLink("Add new phtot", "Edit", new { id = Model.ProfileId })
-    @Html.ActionLink("Back to List", "Index")
-</p>
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ProfileId }) |
+        @Html.ActionLink("Add new phtot", "Edit", new { id = Model.ProfileId })
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+

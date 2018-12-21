@@ -180,6 +180,7 @@
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -189,7 +190,7 @@
     <Compile Include="Models\EnumerableExtension.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Image.cs" />
-    <Compile Include="Models\ImageCustomClass.cs" />
+    <Compile Include="Models\CustomModelsClass.cs" />
     <Compile Include="Models\ImageFormatUtils.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Profile.cs" />
@@ -267,6 +268,8 @@
     <Content Include="Views\Account\NewProfile.cshtml" />
     <Content Include="Views\Profile\Edit.cshtml" />
     <Content Include="Views\Image\View.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Article\" />

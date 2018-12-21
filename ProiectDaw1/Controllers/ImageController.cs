@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity;
 using ProiectDaw1.Models;
 using static ProiectDaw1.Models.Profile;
 using static ProiectDaw1.Models.EnumerableExtension;
+using static ProiectDaw1.Models.CustomModelsClass;
+
 namespace ProiectDaw1.Controllers
 {
 
@@ -84,7 +86,7 @@ namespace ProiectDaw1.Controllers
                     }
                 }
             }
-            ImageCustomClass imageCustomClass = new ImageCustomClass();
+            CustomModelsClass.AddComentClass imageCustomClass = new AddComentClass();
             imageCustomClass.commentNames = commentNames;
             imageCustomClass.image = image;
             return View(imageCustomClass);
