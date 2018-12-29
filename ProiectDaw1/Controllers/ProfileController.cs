@@ -16,7 +16,17 @@ namespace ProiectDaw1.Controllers
         private ProfileDBContext db = new ProfileDBContext();
         public ActionResult New(string id)
         {
-            return View(id);
+            var userId = User.Identity.GetUserId();
+            var profile = db.Profiles.Where(x => x.UserId.Equals(userId)).FirstOrDefault();
+            if (profile == null)
+            {
+                return View(id);
+            }
+            else
+            {
+                return RedirectToAction("View","Profile", new { id = profile.ProfileId });
+            }
+            
         }
         [HttpPost]
         public ActionResult New(string id,Profile profile)
@@ -45,10 +55,10 @@ namespace ProiectDaw1.Controllers
         }
         public ActionResult View(int id)
         {
+            
             var profile = db.Profiles.Where(x => x.ProfileId == id).FirstOrDefault();
             return View(profile);
         }
-        
         public ActionResult Edit(int id)
         {
             var Profile = db.Profiles.Where(p => p.ProfileId == id).FirstOrDefault();
