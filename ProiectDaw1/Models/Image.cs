@@ -21,7 +21,8 @@ namespace ProiectDaw1.Models
         public virtual ICollection<Comment> Comments { get; set; }
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
-        //public Profile profile;
+        public Profile profile;
+        public int Profile_ProfileId;
         public class ImageDBContext : DbContext
         {
             public ImageDBContext() : base("DefaultConnection") { }
