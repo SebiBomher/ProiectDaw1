@@ -13,14 +13,12 @@ namespace ProiectDaw1.Models
         public int CategoryId { get; set; }
         [Required]
         public string Name { get; set; }
-        public int ImageId { get; set; }
-        public Image Image { get; set; }
-
         public class CategoriesDBContext : DbContext
         {
             public CategoriesDBContext() : base("DefaultConnection") { }
             public DbSet<Categories> Categories { get; set; }
 
         }
+
     }
 }

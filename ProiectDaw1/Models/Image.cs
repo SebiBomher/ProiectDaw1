@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Web;
+using System.Web.Mvc;
 
 namespace ProiectDaw1.Models
 {
@@ -15,14 +16,15 @@ namespace ProiectDaw1.Models
     {
         [Key]
         public int ImageId { get; set; }
+        public int ProfileId { get; set; }
         [Required]
         public byte[] ByteString { get; set; }
         public string Descriere { get; set; }
+        public int CategoryId { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
         public Profile profile;
-        public int ProfileId { get; set; }
         public class ImageDBContext : DbContext
         {
             public ImageDBContext() : base("DefaultConnection") { }
@@ -31,5 +33,7 @@ namespace ProiectDaw1.Models
             public DbSet<Categories> Categories { get; set; }
 
         }
+
+
     }
 }

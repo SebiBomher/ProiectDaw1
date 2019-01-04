@@ -6,12 +6,34 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static ProiectDaw1.Models.Categories;
 using static ProiectDaw1.Models.Profile;
 
 namespace ProiectDaw1.Controllers
 {
     public class ProfileController : Controller
     {
+        private CategoriesDBContext db2 = new CategoriesDBContext();
+        [NonAction]
+        public IEnumerable<SelectListItem> GetAllCategories()
+        {
+            // generam o lista goala    
+            var selectList = new List<SelectListItem>();
+            // Extragem toate categoriile din baza de date    
+            var categories = from cat in db2.Categories select cat;
+            // iteram prin categorii          
+            foreach (var category in categories)
+            {
+                // Adaugam in lista elementele necesare pentru dropdown     
+                selectList.Add(new SelectListItem
+                {
+                    Value = category.CategoryId.ToString(),
+                    Text = category.Name.ToString()
+                });
+            }
+            // returnam lista de categorii       
+            return selectList;
+        }
         private ApplicationDbContext db1 = ApplicationDbContext.Create();
         private ProfileDBContext db = new ProfileDBContext();
         public ActionResult New(string id)
@@ -102,12 +124,15 @@ namespace ProiectDaw1.Controllers
         }
         public ActionResult AddPhoto()
         {
-            return View();
+            CustomModelsClass.AddPhotoClass addPhoto = new CustomModelsClass.AddPhotoClass();
+            addPhoto.Categories = GetAllCategories();
+            addPhoto.image = new Image();
+            return View(addPhoto);
         }
         [HttpPost]
-        public ActionResult AddPhoto(int id,Image image)
+        public ActionResult AddPhoto(int id, CustomModelsClass.AddPhotoClass addPhoto)
         {
-            using (Stream inputStream = image.ImageFile.InputStream)
+            using (Stream inputStream = addPhoto.image.ImageFile.InputStream)
             {
                 MemoryStream memoryStream = inputStream as MemoryStream;
                 if (memoryStream == null)
@@ -115,10 +140,10 @@ namespace ProiectDaw1.Controllers
                     memoryStream = new MemoryStream();
                     inputStream.CopyTo(memoryStream);
                 }
-                image.ByteString = memoryStream.ToArray();
+                addPhoto.image.ByteString = memoryStream.ToArray();
             }
-            image.ProfileId = id;
-            db.Images.Add(image);
+            addPhoto.image.ProfileId = id;
+            db.Images.Add(addPhoto.image);
             db.SaveChanges();
             ModelState.Clear();
             return View();

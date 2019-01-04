@@ -91,6 +91,7 @@ namespace ProiectDaw1.Controllers
             imageCustomClass.image = image;
             return View(imageCustomClass);
         }
+        
         public ActionResult Index()
         {
             var images = from image in db.Images orderby image.ImageId descending select image;

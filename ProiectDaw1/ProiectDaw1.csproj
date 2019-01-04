@@ -271,10 +271,11 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Profile\AddPhoto.cshtml" />
+    <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\Categories\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Article\" />
-    <Folder Include="Views\Categories\" />
     <Folder Include="Views\Comment\" />
   </ItemGroup>
   <ItemGroup>
