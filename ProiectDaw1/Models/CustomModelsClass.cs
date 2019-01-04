@@ -32,7 +32,11 @@ namespace ProiectDaw1.Models
 
             }
         }
-
+        public class ViewProfileClass
+        {
+            public Profile profile { get; set; }
+            public List<Image> images { get; set; }
+        }
 
     }
 }

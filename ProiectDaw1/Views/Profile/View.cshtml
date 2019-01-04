@@ -1,4 +1,4 @@
-﻿@model ProiectDaw1.Models.Profile
+﻿@model ProiectDaw1.Models.CustomModelsClass.ViewProfileClass
 
 @{
     ViewBag.Title = "View";
@@ -6,83 +6,104 @@
 
 <h2>View</h2>
 
-    <div>
-        <h4>Profile</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.ProfilePicture)
-            </dt>
+<div>
+    <h4>Profile</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.profile.ProfilePicture)
+        </dt>
 
-            <dd>
-                @{
-                    var base64 = Convert.ToBase64String(Model.ProfilePicture.ByteString);
-                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                }
+        <dd>
+            @{
+                var base64 = Convert.ToBase64String(Model.profile.ProfilePicture.ByteString);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+            }
 
-                <img src="@imgSrc" width="100" height="100" />
-            </dd>
+            <img src="@imgSrc" width="100" height="100" />
+        </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.profile.Name)
+        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Name)
-            </dd>
+        <dd>
+            @Html.DisplayFor(model => model.profile.Name)
+        </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Prename)
-            </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.profile.Prename)
+        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Prename)
-            </dd>
+        <dd>
+            @Html.DisplayFor(model => model.profile.Prename)
+        </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Nickname)
-            </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.profile.Nickname)
+        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Nickname)
-            </dd>
+        <dd>
+            @Html.DisplayFor(model => model.profile.Nickname)
+        </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.City)
-            </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.profile.City)
+        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.City)
-            </dd>
+        <dd>
+            @Html.DisplayFor(model => model.profile.City)
+        </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Country)
-            </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.profile.Country)
+        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Country)
-            </dd>
+        <dd>
+            @Html.DisplayFor(model => model.profile.Country)
+        </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Language)
-            </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.profile.Language)
+        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Language)
-            </dd>
-            <dt>
-                @Html.Label("Add New Image")
-            </dt>
+        <dd>
+            @Html.DisplayFor(model => model.profile.Language)
+        </dd>
+        <dt>
+            @Html.Label("Add New Image")
+        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Language)
-            </dd>
+        <dd>
+            @Html.DisplayFor(model => model.profile.Language)
+        </dd>
 
-        </dl>
-    </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ProfileId }) |
-        @Html.ActionLink("Add new phto", "AddPhoto","Image", new { id = Model.ProfileId })
-        @Html.ActionLink("Back to List", "Index")
-    </p>
+    </dl>
+
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.profile.ProfileId }) |
+    @Html.ActionLink("Add new phto", "AddPhoto", new { id = Model.profile.ProfileId })
+    @Html.ActionLink("Back to List", "Index")
+</p>
+@{
+    int i = 1;
+    if (Model.images != null)
+    {
+        foreach (var item in Model.images)
+        {
+
+            var base64a = Convert.ToBase64String(item.ByteString);
+            var imgSrca = String.Format("data:image/gif;base64,{0}", base64a);
+            <a href="/Image/View/@item.ImageId"><img src="@imgSrca" width="250" height="250" /></a>
+            if (i % 4 == 0)
+            {
+                <br>
+                </br>
+            }
+            i++;
+        }
+    }
+}
+
 

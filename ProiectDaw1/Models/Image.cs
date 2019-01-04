@@ -22,7 +22,7 @@ namespace ProiectDaw1.Models
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
         public Profile profile;
-        public int Profile_ProfileId;
+        public int ProfileId { get; set; }
         public class ImageDBContext : DbContext
         {
             public ImageDBContext() : base("DefaultConnection") { }

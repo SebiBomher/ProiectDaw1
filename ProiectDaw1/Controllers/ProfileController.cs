@@ -20,7 +20,7 @@ namespace ProiectDaw1.Controllers
             var profile = db.Profiles.Where(x => x.UserId.Equals(userId)).FirstOrDefault();
             if (profile == null)
             {
-                return View(id);
+                return View();
             }
             else
             {
@@ -29,7 +29,7 @@ namespace ProiectDaw1.Controllers
             
         }
         [HttpPost]
-        public ActionResult New(string id,Profile profile)
+        public ActionResult New(Profile profile)
         {
             using (Stream inputStream = profile.ProfilePicture.ImageFile.InputStream)
             {
@@ -41,6 +41,7 @@ namespace ProiectDaw1.Controllers
                 }
                 profile.ProfilePicture.ByteString = memoryStream.ToArray();
             }
+            profile.ProfilePicture.ProfileId = profile.ProfileId;
             profile.UserId = User.Identity.GetUserId();
             profile.nrOfImages = 0;
             db.Images.Add(profile.ProfilePicture);
@@ -57,7 +58,11 @@ namespace ProiectDaw1.Controllers
         {
             
             var profile = db.Profiles.Where(x => x.ProfileId == id).FirstOrDefault();
-            return View(profile);
+            var images = db.Images.Where(x => x.ProfileId == profile.ProfileId).ToList();
+            CustomModelsClass.ViewProfileClass viewProfile = new CustomModelsClass.ViewProfileClass();
+            viewProfile.profile = profile;
+            viewProfile.images = images;
+            return View(viewProfile);
         }
         public ActionResult Edit(int id)
         {
@@ -100,7 +105,7 @@ namespace ProiectDaw1.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult AddPhoto(Image image)
+        public ActionResult AddPhoto(int id,Image image)
         {
             using (Stream inputStream = image.ImageFile.InputStream)
             {
@@ -112,9 +117,7 @@ namespace ProiectDaw1.Controllers
                 }
                 image.ByteString = memoryStream.ToArray();
             }
-            var userId = User.Identity.GetUserId();
-            var profile = db.Profiles.Where(x => x.UserId.Equals(userId)).FirstOrDefault();
-            image.Profile_ProfileId = profile.ProfileId;
+            image.ProfileId = id;
             db.Images.Add(image);
             db.SaveChanges();
             ModelState.Clear();

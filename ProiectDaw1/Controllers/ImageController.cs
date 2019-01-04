@@ -27,29 +27,6 @@ namespace ProiectDaw1.Controllers
         {
             return View();
         }
-
-        [HttpPost]
-        public ActionResult Add(Image image)
-        {
-            using (Stream inputStream = image.ImageFile.InputStream)
-            {
-                MemoryStream memoryStream = inputStream as MemoryStream;
-                if (memoryStream == null)
-                {
-                    memoryStream = new MemoryStream();
-                    inputStream.CopyTo(memoryStream);
-                }
-                image.ByteString = memoryStream.ToArray();
-            }
-            var userId = User.Identity.GetUserId();
-            var profile = db1.Profiles.Where(x => x.UserId.Equals(userId)).FirstOrDefault();
-            image.Profile_ProfileId = profile.ProfileId;
-
-            db.Images.Add(image);
-            db.SaveChanges();
-            ModelState.Clear();
-            return View();
-        }
         [HttpPost]
         public ActionResult Add(int id,Image image)
         {
@@ -63,7 +40,7 @@ namespace ProiectDaw1.Controllers
                 }
                 image.ByteString = memoryStream.ToArray();
             }
-            image.Profile_ProfileId = id;
+            image.ProfileId = id;
             db.Images.Add(image);
             db.SaveChanges();
             ModelState.Clear();
