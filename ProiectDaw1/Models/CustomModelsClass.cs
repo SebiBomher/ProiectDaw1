@@ -38,12 +38,7 @@ namespace ProiectDaw1.Models
             public Profile profile { get; set; }
             public List<Image> images { get; set; }
         }
-        public class AddPhotoClass
-        {
-            public Image image { get; set; }
-            public virtual Categories CategoriesHelper { get; set; }
-            public virtual IEnumerable<SelectListItem> Categories { get; set; }
-        }
+        
 
     }
 }

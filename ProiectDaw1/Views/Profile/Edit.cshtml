@@ -9,7 +9,7 @@
 {
     <div>Data base error</div>
 }
-@using (Html.BeginForm("Edit", "Profile", FormMethod.Post))
+@using (Html.BeginForm("Edit", "Profile", FormMethod.Post, new { id = Model.ProfileId }))
 {
     @Html.AntiForgeryToken()
     @Html.HttpMethodOverride(HttpVerbs.Put)
@@ -18,10 +18,10 @@
         <hr />
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         @Html.HiddenFor(model => model.ProfileId)
-        @Html.HiddenFor(model => model.nrOfImages);
-        @Html.HiddenFor(model => model.UserId);
-        @Html.HiddenFor(model => model.ProfilePicture)
+        @Html.HiddenFor(model => model.nrOfImages)
+        @Html.HiddenFor(model => model.UserId)
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">

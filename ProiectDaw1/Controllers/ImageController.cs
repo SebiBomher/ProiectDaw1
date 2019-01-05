@@ -11,6 +11,8 @@ using ProiectDaw1.Models;
 using static ProiectDaw1.Models.Profile;
 using static ProiectDaw1.Models.EnumerableExtension;
 using static ProiectDaw1.Models.CustomModelsClass;
+using static ProiectDaw1.Models.Album;
+using static ProiectDaw1.Models.Categories;
 
 namespace ProiectDaw1.Controllers
 {
@@ -21,14 +23,39 @@ namespace ProiectDaw1.Controllers
         
         private Image.ImageDBContext db = new Image.ImageDBContext();
         private ProfileDBContext db1 = new ProfileDBContext();
+
+        private CategoriesDBContext db2 = new CategoriesDBContext();
+        private AlbumDBContext db3 = new AlbumDBContext();
+        [NonAction]
+        public IEnumerable<Categories> GetAllCategories()
+        {
+            // generam o lista goala    
+            var selectList = new List<Categories>();
+            // Extragem toate categoriile din baza de date    
+            var categories = from cat in db2.Categories select cat;
+            // iteram prin categorii          
+            foreach (var category in categories)
+            {
+                // Adaugam in lista elementele necesare pentru dropdown     
+                selectList.Add(new Categories
+                {
+                    CategoryId = category.CategoryId,
+                    Name = category.Name.ToString()
+                });
+            }
+            // returnam lista de categorii       
+            return selectList;
+        }
         // GET: Image
         [HttpGet]
         public ActionResult Add()
         {
-            return View();
+            Image image = new Image();
+            image.Categories = GetAllCategories();
+            return View(image);
         }
         [HttpPost]
-        public ActionResult Add(int id,Image image)
+        public ActionResult Add(int id, Image image)
         {
             using (Stream inputStream = image.ImageFile.InputStream)
             {
@@ -40,11 +67,15 @@ namespace ProiectDaw1.Controllers
                 }
                 image.ByteString = memoryStream.ToArray();
             }
-            image.ProfileId = id;
+            var Album = db3.Albums.Where(p => p.AlbumId == id).FirstOrDefault();
+            image.ProfileId = Album.ProfileId;
+            image.AlbumId = id;
             db.Images.Add(image);
             db.SaveChanges();
             ModelState.Clear();
-            return View();
+
+            return RedirectToAction("View","Profile",new { id = Album.ProfileId});
+
         }
         public ActionResult View(int id)
         {

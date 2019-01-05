@@ -21,6 +21,8 @@ namespace ProiectDaw1.Models
         public byte[] ByteString { get; set; }
         public string Descriere { get; set; }
         public int CategoryId { get; set; }
+        public int AlbumId { get; set; }
+        public IEnumerable <Categories> Categories { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
@@ -33,7 +35,7 @@ namespace ProiectDaw1.Models
             public DbSet<Categories> Categories { get; set; }
 
         }
-
+       
 
     }
 }

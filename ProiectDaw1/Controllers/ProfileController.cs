@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static ProiectDaw1.Models.Album;
 using static ProiectDaw1.Models.Categories;
 using static ProiectDaw1.Models.Profile;
 
@@ -15,20 +16,20 @@ namespace ProiectDaw1.Controllers
     {
         private CategoriesDBContext db2 = new CategoriesDBContext();
         [NonAction]
-        public IEnumerable<SelectListItem> GetAllCategories()
+        public IEnumerable<Categories> GetAllCategories()
         {
             // generam o lista goala    
-            var selectList = new List<SelectListItem>();
+            var selectList = new List<Categories>();
             // Extragem toate categoriile din baza de date    
             var categories = from cat in db2.Categories select cat;
             // iteram prin categorii          
             foreach (var category in categories)
             {
                 // Adaugam in lista elementele necesare pentru dropdown     
-                selectList.Add(new SelectListItem
+                selectList.Add(new Categories
                 {
-                    Value = category.CategoryId.ToString(),
-                    Text = category.Name.ToString()
+                    CategoryId = category.CategoryId,
+                    Name = category.Name.ToString()
                 });
             }
             // returnam lista de categorii       
@@ -98,8 +99,9 @@ namespace ProiectDaw1.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    
                     Profile profile = db.Profiles.Find(id);
-                    if (TryUpdateModel(Profile))
+                    if (TryUpdateModel(profile))
                     {
                         
                         profile.Name = requestProfile.Name;
@@ -119,34 +121,11 @@ namespace ProiectDaw1.Controllers
             }
             catch (Exception e)
             {
+
                 return View();
             }
         }
-        public ActionResult AddPhoto()
-        {
-            CustomModelsClass.AddPhotoClass addPhoto = new CustomModelsClass.AddPhotoClass();
-            addPhoto.Categories = GetAllCategories();
-            addPhoto.image = new Image();
-            return View(addPhoto);
-        }
-        [HttpPost]
-        public ActionResult AddPhoto(int id, CustomModelsClass.AddPhotoClass addPhoto)
-        {
-            using (Stream inputStream = addPhoto.image.ImageFile.InputStream)
-            {
-                MemoryStream memoryStream = inputStream as MemoryStream;
-                if (memoryStream == null)
-                {
-                    memoryStream = new MemoryStream();
-                    inputStream.CopyTo(memoryStream);
-                }
-                addPhoto.image.ByteString = memoryStream.ToArray();
-            }
-            addPhoto.image.ProfileId = id;
-            db.Images.Add(addPhoto.image);
-            db.SaveChanges();
-            ModelState.Clear();
-            return View();
-        }
+        
+        
     }
 }

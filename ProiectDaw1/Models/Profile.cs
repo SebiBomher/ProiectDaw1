@@ -35,9 +35,6 @@ namespace ProiectDaw1.Models
 
         }
 
-        internal string GetRuleViolations()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
