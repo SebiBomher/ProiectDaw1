@@ -71,9 +71,11 @@
     </dl>
 </div>
 <p>
-    @{ 
+    @{
 
     }
+
     @Html.ActionLink("Edit", "Edit", new { id = Model.image.ImageId }) |
+    @Html.ActionLink("Delete", "Delete", new { id = Model.image.ImageId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

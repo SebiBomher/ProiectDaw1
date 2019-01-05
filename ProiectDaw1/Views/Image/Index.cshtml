@@ -3,6 +3,12 @@
 @{
     ViewBag.Title = "Index";
 }
+<br />
+<br />
+@using (Html.BeginForm("Search", "Image", FormMethod.Get))
+{
+    @Html.TextBox("searching")<input type="submit" value="Search" />
+}
 <br>
 </br>
 @{

@@ -215,6 +215,9 @@ namespace ProiectDaw1.Controllers
                 return RedirectToAction("Index");
             }
         }
-        
+        public ActionResult Search(string searching)
+        {
+            return View(db.Images.Where(x => x.Descriere.Contains(searching) || searching == null).ToList());
+        }
     }
 }

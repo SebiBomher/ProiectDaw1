@@ -282,6 +282,7 @@
     <Content Include="Views\Profile\Delete.cshtml" />
     <Content Include="Views\Comment\Edit.cshtml" />
     <Content Include="Views\Comment\Delete.cshtml" />
+    <Content Include="Views\Image\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Admin\" />
