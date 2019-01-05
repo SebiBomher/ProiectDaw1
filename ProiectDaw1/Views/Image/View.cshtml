@@ -33,7 +33,7 @@
         @{
             if (User.Identity.IsAuthenticated)
             {
-                <form method="post" action="/Image/AddComment">
+                <form method="post" action="/Comment/Add">
                     <input type="hidden" name="Comment.ImageId" value="@Model.image.ImageId" />
                     <br />
                     <textarea rows="4" cols="50" name="Comment.Comment"></textarea>
@@ -49,14 +49,19 @@
                 int i = 0;
                 foreach (var item in Model.image.Comments.ToList())
                 {
+                    if (item.visible == 1)
+                    {
+                        <dt>
+                            @Html.DisplayFor(modelitem => Model.commentNames[i])
+                        </dt>
 
-                    <dt>
-                        @Html.DisplayFor(modelitem => Model.commentNames[i])
-                    </dt>
+                        <dd>
+                            @Html.DisplayFor(modelitem => item.comment) |
+                            <a href="/Comment/Edit/@item.Id"> Edit</a> |
+                            <a href="/Comment/Delete/@item.Id"> Delete</a> |
+                        </dd>
 
-                    <dd>
-                        @Html.DisplayFor(modelitem => item.comment)
-                    </dd>
+                    }
                     i++;
                 }
             }
@@ -66,6 +71,9 @@
     </dl>
 </div>
 <p>
+    @{ 
+
+    }
     @Html.ActionLink("Edit", "Edit", new { id = Model.image.ImageId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

@@ -1,0 +1,107 @@
+﻿@model ProiectDaw1.Models.CustomModelsClass.ViewProfileClass
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>View</h2>
+
+<div>
+    <h4>Profile</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.profile.ProfilePicture)
+        </dt>
+
+        <dd>
+            @{
+                var base64 = Convert.ToBase64String(Model.profile.ProfilePicture.ByteString);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+            }
+
+            <img src="@imgSrc" width="100" height="100" />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.profile.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.profile.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.profile.Prename)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.profile.Prename)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.profile.Nickname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.profile.Nickname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.profile.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.profile.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.profile.Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.profile.Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.profile.Language)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.profile.Language)
+        </dd>
+        <dt>
+            @Html.Label("Add New Image")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.profile.Language)
+        </dd>
+
+    </dl>
+
+</div>
+<p>|
+    <a href="/Album/Index/"> View Albums</a> |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+@{
+    int i = 1;
+    if (Model.images != null)
+    {
+        foreach (var item in Model.images)
+        {
+
+            var base64a = Convert.ToBase64String(item.ByteString);
+            var imgSrca = String.Format("data:image/gif;base64,{0}", base64a);
+            <a href="/Image/View/@item.ImageId"><img src="@imgSrca" width="250" height="250" /></a>
+            if (i % 4 == 0)
+            {
+                <br>
+                </br>
+            }
+            i++;
+        }
+    }
+}

@@ -278,9 +278,13 @@
     <Content Include="Views\Album\Add.cshtml" />
     <Content Include="Views\Album\View.cshtml" />
     <Content Include="Views\Album\Index.cshtml" />
+    <Content Include="Views\Profile\Details.cshtml" />
+    <Content Include="Views\Profile\Delete.cshtml" />
+    <Content Include="Views\Comment\Edit.cshtml" />
+    <Content Include="Views\Comment\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Comment\" />
+    <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

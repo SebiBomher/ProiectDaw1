@@ -15,6 +15,9 @@ namespace ProiectDaw1.Controllers
     public class ProfileController : Controller
     {
         private CategoriesDBContext db2 = new CategoriesDBContext();
+        private ApplicationDbContext db1 = ApplicationDbContext.Create();
+        private ProfileDBContext db = new ProfileDBContext();
+        private AlbumDBContext db3 = new AlbumDBContext();
         [NonAction]
         public IEnumerable<Categories> GetAllCategories()
         {
@@ -35,8 +38,7 @@ namespace ProiectDaw1.Controllers
             // returnam lista de categorii       
             return selectList;
         }
-        private ApplicationDbContext db1 = ApplicationDbContext.Create();
-        private ProfileDBContext db = new ProfileDBContext();
+        
         public ActionResult New(string id)
         {
             var userId = User.Identity.GetUserId();
@@ -70,7 +72,7 @@ namespace ProiectDaw1.Controllers
             db.Images.Add(profile.ProfilePicture);
             db.Profiles.Add(profile);
             db.SaveChanges();
-            return View();
+            return RedirectToAction("View","Profile", new { id = profile.ProfileId });
         }
         public ActionResult Index()
         {
@@ -89,30 +91,45 @@ namespace ProiectDaw1.Controllers
         }
         public ActionResult Edit(int id)
         {
+            string UID = User.Identity.GetUserId();
             var Profile = db.Profiles.Where(p => p.ProfileId == id).FirstOrDefault();
+            if (!Profile.UserId.Equals(UID))
+            {
+                TempData["mesage"] = "Nu aveti dreptul sa faceti modificari unui profil care nu va apartine";
+                return RedirectToAction("Index");
+            }
             return View(Profile);
         }
         [HttpPut]
         public ActionResult Edit(int id, Profile requestProfile)
         {
+            string UID = User.Identity.GetUserId();
             try
             {
                 if (ModelState.IsValid)
                 {
                     
                     Profile profile = db.Profiles.Find(id);
-                    if (TryUpdateModel(profile))
+                    if (!profile.UserId.Equals(UID))
                     {
-                        
-                        profile.Name = requestProfile.Name;
-                        profile.Prename = requestProfile.Prename;
-                        profile.Nickname = requestProfile.Nickname;
-                        profile.City = requestProfile.City;
-                        profile.Country = requestProfile.Country;
-                        profile.Language = requestProfile.Language;
-                        db.SaveChanges();
+                        TempData["mesage"] = "Nu aveti dreptul sa faceti modificari unui profil care nu va apartine";
+                        return RedirectToAction("Index");
                     }
-                    return RedirectToAction("Index");
+                    else
+                    {
+                        if (TryUpdateModel(profile))
+                        {
+
+                            profile.Name = requestProfile.Name;
+                            profile.Prename = requestProfile.Prename;
+                            profile.Nickname = requestProfile.Nickname;
+                            profile.City = requestProfile.City;
+                            profile.Country = requestProfile.Country;
+                            profile.Language = requestProfile.Language;
+                            db.SaveChanges();
+                        }
+                        return RedirectToAction("Index");
+                    }
                 }
                 else
                 {
@@ -125,7 +142,50 @@ namespace ProiectDaw1.Controllers
                 return View();
             }
         }
-        
-        
+        public ActionResult Delete(int id)
+        {
+            string UID = User.Identity.GetUserId();
+            Profile profile = new Profile();
+            profile = db.Profiles.Where(x => x.ProfileId == id).FirstOrDefault();
+            if (!profile.UserId.Equals(UID))
+            {
+                TempData["mesage"] = "Nu aveti dreptul sa stergeti o imagine care nu va apartine";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(profile);
+            }
+
+        }
+        [HttpDelete]
+        public ActionResult Delete1(int id)
+        {
+            string UID = User.Identity.GetUserId();
+            Profile profile = db.Profiles.Find(id);
+            if (!profile.UserId.Equals(UID))
+            {
+                TempData["mesage"] = "Nu aveti dreptul sa stergeti o imagine care nu va apartine";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var Image = db.Images.Where(i => i.ProfileId == id);
+                var Album = db3.Albums.Where(x => x.ProfileId == id);
+                foreach (var item in Image)
+                {
+                    db.Images.Remove(item);
+                }
+                foreach (var item in Album)
+                {
+                    db3.Albums.Remove(item);
+                }
+                db.Profiles.Remove(profile);
+                db.SaveChanges();
+                return RedirectToAction("Index","Image");
+            }
+        }
+
+
     }
 }

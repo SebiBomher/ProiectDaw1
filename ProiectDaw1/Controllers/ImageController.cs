@@ -132,23 +132,43 @@ namespace ProiectDaw1.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
+            string UID = User.Identity.GetUserId();
             var Image = db.Images.Where(i => i.ImageId == id).FirstOrDefault();
-            return View(Image);
+            var Profile = db1.Profiles.Where(x => x.ProfileId == Image.ProfileId).FirstOrDefault();
+            if (!Profile.UserId.Equals(UID))
+            {
+                TempData["mesage"] = "Nu aveti dreptul sa faceti modificari unui profil care nu va apartine";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(Image);
+            }
         }
         [HttpPut]
         public ActionResult Edit(int id, Image requestImage)
         {
+            string UID = User.Identity.GetUserId();
             try
             {
                 if (ModelState.IsValid)
                 {
                     Image image = db.Images.Find(id);
-                    if (TryUpdateModel(image))
+                    var Profile = db1.Profiles.Where(x => x.ProfileId == image.ProfileId).FirstOrDefault();
+                    if (!Profile.UserId.Equals(UID))
                     {
-                        image.Descriere = requestImage.Descriere;
-                        db.SaveChanges();
+                        TempData["mesage"] = "Nu aveti dreptul sa faceti modificari unei imagini care nu va apartine";
+                        return RedirectToAction("Index");
                     }
-                    return RedirectToAction("Index");
+                    else
+                    {
+                        if (TryUpdateModel(image))
+                        {
+                            image.Descriere = requestImage.Descriere;
+                            db.SaveChanges();
+                        }
+                        return RedirectToAction("Index");
+                    }
                 }
                 else
                 {
@@ -162,29 +182,39 @@ namespace ProiectDaw1.Controllers
         }
         public ActionResult Delete(int id)
         {
+            string UID = User.Identity.GetUserId();
             Image image = new Image();
             image = db.Images.Where(x => x.ImageId == id).FirstOrDefault();
-            return View(image);
+            var Profile = db1.Profiles.Where(x => x.ProfileId == image.ProfileId).FirstOrDefault();
+            if (!Profile.UserId.Equals(UID))
+            {
+                TempData["mesage"] = "Nu aveti dreptul sa stergeti o imagine care nu va apartine";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(image);
+            }
+            
         }
         [HttpDelete]
         public ActionResult Delete1(int id)
         {
+            string UID = User.Identity.GetUserId();
             Image image = db.Images.Find(id);
-            db.Images.Remove(image);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-        [HttpPost]
-        public ActionResult AddComment(Comment comment)
-        {
-            var userId = User.Identity.GetUserId();
-            var profile = db1.Profiles.Where(x => x.UserId == userId).FirstOrDefault();
-                comment.ProfileId = profile.ProfileId;
-                db.Comments.Add(comment);
+            var Profile = db1.Profiles.Where(x => x.ProfileId == image.ProfileId).FirstOrDefault();
+            if (!Profile.UserId.Equals(UID))
+            {
+                TempData["mesage"] = "Nu aveti dreptul sa stergeti o imagine care nu va apartine";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                db.Images.Remove(image);
                 db.SaveChanges();
-                return Redirect("/Image/View/" + comment.ImageId);
-
-            
+                return RedirectToAction("Index");
+            }
         }
+        
     }
 }

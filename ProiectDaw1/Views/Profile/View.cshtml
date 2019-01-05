@@ -86,27 +86,26 @@
     <a href="/Image/Add/@Model.profile.ProfileId"> Add New Photo</a> |
     <a href="/Album/Add/@Model.profile.ProfileId"> Add New Album</a> |
     <a href="/Album/Index/"> View Albums</a> |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index") |
+    @Html.ActionLink("Delete", "Delete", new { id = Model.profile.ProfileId }))
 </p>
 
-    @{
-        int i = 1;
-        if (Model.images != null)
+@{
+    int i = 1;
+    if (Model.images != null)
+    {
+        foreach (var item in Model.images)
         {
-            foreach (var item in Model.images)
-            {
 
-                var base64a = Convert.ToBase64String(item.ByteString);
-                var imgSrca = String.Format("data:image/gif;base64,{0}", base64a);
-                <a href="/Image/View/@item.ImageId"><img src="@imgSrca" width="250" height="250" /></a>
-                if (i % 4 == 0)
-                {
-                    <br>
-                    </br>
-                }
-                i++;
+            var base64a = Convert.ToBase64String(item.ByteString);
+            var imgSrca = String.Format("data:image/gif;base64,{0}", base64a);
+            <a href="/Image/View/@item.ImageId"><img src="@imgSrca" width="250" height="250" /></a>
+            if (i % 4 == 0)
+            {
+                <br>
+                </br>
             }
+            i++;
         }
     }
-
-
+}

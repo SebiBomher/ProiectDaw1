@@ -16,6 +16,7 @@ namespace ProiectDaw1.Models
         public int ImageId { get; set; }
         public int ProfileId { get;set; }
         public Image Image;
+        public int visible { get; set; }
         public class CommentDBContext : DbContext
         {
             public CommentDBContext() : base("DefaultConnection") { }

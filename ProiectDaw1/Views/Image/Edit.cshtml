@@ -1,7 +1,9 @@
 ﻿@model ProiectDaw1.Models.Image
 
 @{
-    ViewBag.Title = "Edit";
+                /**/
+
+                ViewBag.Title = "Edit";
 }
 
 <h2>Edit</h2>
@@ -12,7 +14,7 @@
 @using (Html.BeginForm("Edit", "Image", FormMethod.Post, new { id = Model.ImageId }))
 {
     @Html.HttpMethodOverride(HttpVerbs.Put)
-@Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
     <div class="form-horizontal">
         <h4>Image</h4>
         <hr />
