@@ -36,8 +36,9 @@
                 <form method="post" action="/Comment/Add">
                     <input type="hidden" name="Comment.ImageId" value="@Model.image.ImageId" />
                     <br />
-                    <textarea rows="4" cols="50" name="Comment.Comment"></textarea>
-                    <button type="submit">Adauga Comentariu</button>
+                    <textarea rows="2" name="Comment.Comment" class="form-control" placeholder="Say something nice!"></textarea>
+
+                    <button type="submit" class=" btn btn-default">Add Comment</button>
                 </form>
             }
         }
@@ -49,16 +50,35 @@
                 int i = 0;
                 foreach (var item in Model.image.Comments.ToList())
                 {
-                    if (item.visible == 1)
+                    if (item.visible == 1 || Model.OwnerOfPicture == true)
                     {
                         <dt>
                             @Html.DisplayFor(modelitem => Model.commentNames[i])
                         </dt>
 
                         <dd>
-                            @Html.DisplayFor(modelitem => item.comment) |
-                            <a href="/Comment/Edit/@item.Id"> Edit</a> |
-                            <a href="/Comment/Delete/@item.Id"> Delete</a> |
+                            <div class="btn-group" role="group" aria-label="...">
+                                @Html.DisplayFor(modelitem => item.comment)
+                                @{
+                                    if (Model.OwnerOfPicture)
+                                    {
+                                        if (item.visible == 1)
+                                        {
+                                            <a href="/Comment/Hide/@item.Id"> <button type="button" class="btn btn-default">Hide</button></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="/Comment/Unhide/@item.Id"> <button type="button" class="btn btn-default">Unhide</button></a>
+                                        }
+
+                                    }
+                                    if (Model.OwnerOfComment[i] || User.IsInRole("Administrator"))
+                                    {
+                                        <a href="/Comment/Edit/@item.Id"> <button type="button" class="btn btn-default">Edit</button></a>
+                                        <a href="/Comment/Delete/@item.Id"> <button type="button" class="btn btn-default">Delete</button></a>
+                                    }
+                                }
+                            </div>
                         </dd>
 
                     }
@@ -72,10 +92,20 @@
 </div>
 <p>
     @{
+        if (Model.OwnerOfPicture || User.IsInRole("Administrator"))
+        {
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <a href="/Image/Edit/@Model.image.ImageId"><button type="button" class="btn btn-default">Edit</button></a>
+                </div>
+                <div class="btn-group" role="group">
+                    <a href="/Image/Delete/@Model.image.ImageId"><button type="button" class="btn btn-default">Delete</button></a>
+                </div>
 
+            </div>
+        }
     }
-
-    @Html.ActionLink("Edit", "Edit", new { id = Model.image.ImageId }) |
-    @Html.ActionLink("Delete", "Delete", new { id = Model.image.ImageId }) |
-    @Html.ActionLink("Back to List", "Index")
+    <div class="btn-group" role="group">
+        <a href="/Image/Index"><button type="button" class="btn btn-default">Back to Frontpage</button></a>
+    </div>
 </p>

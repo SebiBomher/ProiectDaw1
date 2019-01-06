@@ -8,9 +8,15 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @{
+        if (User.IsInRole("Administrator"))
+        {
+            <a href="/Categories/Add/"><button type="button" class="btn btn-default">Add New Category</button></a>
+        }
+    }
+
 </p>
-<table class="table">
+<table class="table table-hover">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -24,7 +30,7 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.ActionLink("View Images", "View", new { id=item.CategoryId }) |
+            <a href="/Categories/View/@item.CategoryId"><button type="button" class="btn btn-default">View Images</button></a>
         </td>
     </tr>
 }

@@ -17,15 +17,20 @@ namespace ProiectDaw1.Controllers
         [HttpPost]
         public ActionResult Add(Comment comment)
         {
-            var userId = User.Identity.GetUserId();
-            var profile = db1.Profiles.Where(x => x.UserId == userId).FirstOrDefault();
-            comment.ProfileId = profile.ProfileId;
-            comment.visible = 1;
-            db.Comments.Add(comment);
-            db.SaveChanges();
-            return Redirect("/Image/View/" + comment.ImageId);
-
-
+            if (comment.comment == null)
+            {
+                return Redirect("/Image/View/" + comment.ImageId);
+            }
+            else
+            {
+                var userId = User.Identity.GetUserId();
+                var profile = db1.Profiles.Where(x => x.UserId == userId).FirstOrDefault();
+                comment.ProfileId = profile.ProfileId;
+                comment.visible = 1;
+                db.Comments.Add(comment);
+                db.SaveChanges();
+                return Redirect("/Image/View/" + comment.ImageId);
+            }
         }
         [HttpGet]
         public ActionResult Edit(int id)
@@ -112,6 +117,55 @@ namespace ProiectDaw1.Controllers
                 db.Comments.Remove(comment);
                 db.SaveChanges();
                 return Redirect("/Image/View/" + comment.ImageId);
+            }
+        }
+        public ActionResult Hide(int id)
+        {
+            try
+            {
+                Comment comment = db.Comments.Find(id);
+                if (ModelState.IsValid)
+                {
+                    
+                    if (TryUpdateModel(comment))
+                    {
+                        comment.visible = 0;
+                        db.SaveChanges();
+                    }
+                    return Redirect("/Image/View/" + comment.ImageId);
+                }
+                else
+                {
+                    return Redirect("/Image/View/" + comment.ImageId);
+                }
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
+        }
+        public ActionResult Unhide(int id)
+        {
+            try
+            {
+                Comment comment = db.Comments.Find(id);
+                if (ModelState.IsValid)
+                {
+                    if (TryUpdateModel(comment))
+                    {
+                        comment.visible = 1;
+                        db.SaveChanges();
+                    }
+                    return Redirect("/Image/View/" + comment.ImageId);
+                }
+                else
+                {
+                    return Redirect("/Image/View/" + comment.ImageId);
+                }
+            }
+            catch (Exception e)
+            {
+                return View();
             }
         }
     }

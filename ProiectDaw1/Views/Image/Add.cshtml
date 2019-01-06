@@ -4,13 +4,12 @@
     ViewBag.Title = "Add";
 }
 
-<h2>Add</h2>
+<h2>Add Image</h2>
 
 @using (Html.BeginForm("Add","Image",FormMethod.Post,new { enctype="multipart/form-data"}))
 {
     @Html.AntiForgeryToken();
 <div class="form-horizontal">
-    <h4>Image</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
@@ -31,5 +30,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <a href="/Image/Index/" type="button" class="btn btn-default">Back To List</button></a>
 </div>

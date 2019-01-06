@@ -7,9 +7,19 @@
 <h2>Search</h2>
 @using (Html.BeginForm("Search", "Image", FormMethod.Get))
 {
-    @Html.TextBox("searching")<input type="submit" value="Search" />
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit" value="Search">Search</button>
+                </span>
+                <input type="text" name="searching" id="searching" class="form-control" placeholder="Search image">
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+
+    </div><!-- /.row -->
 }
-<table class="table table-striped"
+<table class="table table-hover"
        <thead>
             <tr>
                 <th>Picture</th>
@@ -30,14 +40,16 @@
                foreach (var item in Model)
                {
                    <tr>
-                       <td>Picture</td>
                        <td>
                            @{
                                var base64 = Convert.ToBase64String(item.ByteString);
                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                           }
+                                           }
 
-                           <img src="@imgSrc" width="100" height="100" />
+                           <a href="/Image/View/@item.ImageId"><img src="@imgSrc" width="100" height="100" /></a>
+                        </td>
+                       <td>
+                           @Html.DisplayFor(modelItem => item.Descriere)
                        </td>
                    </tr>
                }

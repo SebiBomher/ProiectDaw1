@@ -79,6 +79,7 @@ namespace ProiectDaw1.Controllers
         }
         public ActionResult View(int id)
         {
+            string UID = User.Identity.GetUserId();
             int i = 0;
             var temp = "";
             var temp1 = "";
@@ -89,8 +90,6 @@ namespace ProiectDaw1.Controllers
             var profiles = from profile in db1.Profiles orderby profile.ProfileId select profile;
             if (image.Comments.ToList() != null)
             {
-
-
                 var ProfileNames = profiles.Select(p => p.Name).ToArray();
                 var ProfileSurNames = profiles.Select(p => p.Prename).ToArray();
                 for (i = 0; i < ProfileNames.Length; i++)
@@ -100,10 +99,8 @@ namespace ProiectDaw1.Controllers
                     var fullnames = temp + " " + temp1;
                     fullNames.Add(fullnames);
                 }
-
                 var ProfileIdsMany = profiles.Select(p => p.ProfileId).ToArray();
                 var ProfileIds = image.Comments.Select(p => p.ProfileId).ToArray();
-
                 foreach (int ProfileId in ProfileIds)
                 {
                     foreach (int ids in ProfileIdsMany)
@@ -120,6 +117,29 @@ namespace ProiectDaw1.Controllers
             CustomModelsClass.AddComentClass imageCustomClass = new AddComentClass();
             imageCustomClass.commentNames = commentNames;
             imageCustomClass.image = image;
+            imageCustomClass.OwnerOfComment = new List<bool>();
+            imageCustomClass.OwnerOfPicture = new bool();
+            var profile1 = db1.Profiles.Where(x => x.UserId.Equals(UID)).FirstOrDefault();
+            int j = 0; 
+            foreach(var comm in image.Comments.ToList())
+            {
+                if (comm.ProfileId == profile1.ProfileId)
+                {
+                    imageCustomClass.OwnerOfComment.Add(true);
+                }
+                else
+                {
+                    imageCustomClass.OwnerOfComment.Add(false);
+                }
+            }
+            if (image.ProfileId == profile1.ProfileId)
+            {
+                imageCustomClass.OwnerOfPicture = true;
+            }
+            else
+            {
+                imageCustomClass.OwnerOfPicture = false;
+            }
             return View(imageCustomClass);
         }
         
@@ -219,5 +239,6 @@ namespace ProiectDaw1.Controllers
         {
             return View(db.Images.Where(x => x.Descriere.Contains(searching) || searching == null).ToList());
         }
+        
     }
 }

@@ -12,7 +12,7 @@ namespace ProiectDaw1.Models
         [Key]
         public int AlbumId { get; set; }
         public int ProfileId { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Please enter the albums name.")]
         public string Name { get; set; }
         public class AlbumDBContext : DbContext
         {

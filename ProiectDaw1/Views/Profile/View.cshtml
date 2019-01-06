@@ -4,10 +4,11 @@
     ViewBag.Title = "View";
 }
 
-<h2>View</h2>
 
 <div>
-    <h4>Profile</h4>
+    <div class="page-header">
+        <h1>My Profile </h1>
+    </div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -20,8 +21,8 @@
                 var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
             }
 
-            <img src="@imgSrc" width="100" height="100" />
-        </dd>
+            <a href="/Image/View/@Model.profile.ProfilePicture.ImageId"><img src="@imgSrc" width="100" height="100" /></a>
+</dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.profile.Name)
@@ -70,26 +71,37 @@
         <dd>
             @Html.DisplayFor(model => model.profile.Language)
         </dd>
-        <dt>
-            @Html.Label("Add New Image")
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.profile.Language)
-        </dd>
 
     </dl>
 
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.profile.ProfileId }) |
-    <a href="/Image/Add/@Model.profile.ProfileId"> Add New Photo</a> |
-    <a href="/Album/Add/@Model.profile.ProfileId"> Add New Album</a> |
-    <a href="/Album/Index/"> View Albums</a> |
-    @Html.ActionLink("Back to List", "Index") |
-    @Html.ActionLink("Delete", "Delete", new { id = Model.profile.ProfileId }))
-</p>
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        @{
+            if (Model.OwnerOfProfile || User.IsInRole("Administrator"))
+            {
+                <div class="btn-group" role="group">
+                    <a href="/Album/Add/@Model.profile.ProfileId"><button type="button" class="btn btn-default">Add New Album</button></a>
+                </div>
+                <div class="btn-group" role="group">
+                    <a href="/Profile/Edit/@Model.profile.ProfileId"><button type="button" class="btn btn-default">Edit</button></a>
+                </div>
+                <div class="btn-group" role="group">
+                    <a href="/Profile/Delete/@Model.profile.ProfileId"><button type="button" class="btn btn-default">Delete</button></a>
+                </div>
 
+                <div class="btn-group" role="group">
+                    <a href="/Album/Index/@Model.profile.ProfileId"><button type="button" class="btn btn-default">View Albums</button></a>
+                </div>
+            }
+        }
+
+        <div class="btn-group" role="group">
+            <a href="/Image/Index"<button type="button" class="btn btn-default">Back to Browsing</button></a>
+        </div>
+    </div>
+</p>
 @{
     int i = 1;
     if (Model.images != null)

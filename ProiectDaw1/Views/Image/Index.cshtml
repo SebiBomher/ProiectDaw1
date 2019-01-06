@@ -1,13 +1,39 @@
 ﻿@model IEnumerable<ProiectDaw1.Models.Image>
 
 @{
+    /**/
+
     ViewBag.Title = "Index";
 }
 <br />
 <br />
 @using (Html.BeginForm("Search", "Image", FormMethod.Get))
 {
-    @Html.TextBox("searching")<input type="submit" value="Search" />
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit" value="Search">Search image</button>
+                </span>
+                <input type="text" name="searching" id="searching" class="form-control" placeholder="Search for...">
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+
+    </div><!-- /.row -->
+}
+@using (Html.BeginForm("Search", "Profile", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit" value="Search">Search profile</button>
+                </span>
+                <input type="text" name="searching" id="searching" class="form-control" placeholder="Search for...">
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+
+    </div><!-- /.row -->
 }
 <br>
 </br>

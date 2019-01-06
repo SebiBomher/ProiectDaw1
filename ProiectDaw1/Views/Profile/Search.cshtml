@@ -1,0 +1,78 @@
+﻿@model IEnumerable<ProiectDaw1.Models.Profile>
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Search</h2>
+@using (Html.BeginForm("Search", "Profile", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit" value="Search">Search</button>
+                </span>
+                <input type="text" name="searching" id="searching" class="form-control" placeholder="Search image">
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+
+    </div><!-- /.row -->
+}
+<table class="table table-hover"
+       <thead>
+           <tr>
+               <th>Picture</th>
+               <th>Nickname</th>
+               <th>Name</th>
+               <th>Surname</th>
+               <th>Country</th>
+               <th>City</th>
+               <th>Language</th>
+           </tr>
+       </thead>
+       <tbody>
+           @if (Model.Count() == 0)
+           {
+               <tr>
+                   <td colspan="3" style:"color:red">
+                       No Profile found
+                   </td>
+               </tr>
+           }
+           else
+           {
+               foreach (var item in Model)
+               {
+               <tr>
+                   <td>
+                       @{
+                           var base64 = Convert.ToBase64String(item.ProfilePicture.ByteString);
+                           var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                       }
+
+                       <a href="/Profile/View/@item.ProfileId"><img src="@imgSrc" width="100" height="100" /></a>
+                   </td>
+                   <td>
+                       @Html.DisplayFor(modelItem => item.Nickname)
+                   </td>
+                   <td>
+                       @Html.DisplayFor(modelItem => item.Name)
+                   </td>
+                   <td>
+                       @Html.DisplayFor(modelItem => item.Prename)
+                   </td>
+                   <td>
+                       @Html.DisplayFor(modelItem => item.Country)
+                   </td>
+                   <td>
+                       @Html.DisplayFor(modelItem => item.City)
+                   </td>
+                   <td>
+                       @Html.DisplayFor(modelItem => item.Language)
+                   </td>
+               </tr>
+               }
+           }
+       </tbody>
+</table>

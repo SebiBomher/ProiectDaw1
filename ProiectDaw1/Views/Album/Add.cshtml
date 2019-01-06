@@ -1,7 +1,7 @@
 ﻿@model ProiectDaw1.Models.Album
 
 @{
-    ViewBag.Title = "AddAlbum";
+    ViewBag.Title = "Add";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -32,5 +32,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <a href="/Album/Index/@Url.RequestContext.RouteData.Values["id"]"><button class="btn btn-default" type="submit" value="Search">Back to list</button></a>
 </div>

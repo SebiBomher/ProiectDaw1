@@ -14,7 +14,8 @@ namespace ProiectDaw1.Models
         {
             public Image image { get; set; }
             public List<string> commentNames { get; set; }
-
+            public List<bool> OwnerOfComment { get; set; }
+            public bool OwnerOfPicture { get; set; }
         }
         public class EditProfile
         {
@@ -37,6 +38,7 @@ namespace ProiectDaw1.Models
         {
             public Profile profile { get; set; }
             public List<Image> images { get; set; }
+            public bool OwnerOfProfile { get; set; }
         }
         
 

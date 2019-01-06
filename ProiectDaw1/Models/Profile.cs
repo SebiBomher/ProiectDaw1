@@ -11,17 +11,17 @@ namespace ProiectDaw1.Models
     {
         [Key]
         public int ProfileId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Name is Required!")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Surname is Required!")]
         public string Prename { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Nickname is required!")]
         public string Nickname { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter your city.")]
         public string City { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter your country")]
         public string Country { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter your language.")]
         public string Language { get; set;}
         public virtual Image ProfilePicture { get; set; }
         public int nrOfImages { get; set; }

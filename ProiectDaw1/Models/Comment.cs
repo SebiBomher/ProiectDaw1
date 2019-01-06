@@ -11,7 +11,7 @@ namespace ProiectDaw1.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage ="You can't post an empty comment.")]
         public string comment { get; set; }
         public int ImageId { get; set; }
         public int ProfileId { get;set; }

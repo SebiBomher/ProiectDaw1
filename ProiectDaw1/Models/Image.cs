@@ -33,7 +33,7 @@ namespace ProiectDaw1.Models
             public DbSet<Image> Images { get; set; }
             public DbSet<Comment> Comments { get; set; }
             public DbSet<Categories> Categories { get; set; }
-
+            public IEnumerable<object> Profiles { get; internal set; }
         }
        
 

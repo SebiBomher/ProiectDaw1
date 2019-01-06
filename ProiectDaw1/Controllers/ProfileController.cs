@@ -81,11 +81,19 @@ namespace ProiectDaw1.Controllers
         }
         public ActionResult View(int id)
         {
-            
+            string UID = User.Identity.GetUserId();
             var profile = db.Profiles.Where(x => x.ProfileId == id).FirstOrDefault();
             var images = db.Images.Where(x => x.ProfileId == profile.ProfileId).ToList();
             CustomModelsClass.ViewProfileClass viewProfile = new CustomModelsClass.ViewProfileClass();
             viewProfile.profile = profile;
+            if (profile.UserId == UID)
+            {
+                viewProfile.OwnerOfProfile = true;
+            }
+            else
+            {
+                viewProfile.OwnerOfProfile = false;
+            }
             viewProfile.images = images;
             return View(viewProfile);
         }
@@ -96,7 +104,7 @@ namespace ProiectDaw1.Controllers
             if (!Profile.UserId.Equals(UID))
             {
                 TempData["mesage"] = "Nu aveti dreptul sa faceti modificari unui profil care nu va apartine";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Image");
             }
             return View(Profile);
         }
@@ -113,7 +121,7 @@ namespace ProiectDaw1.Controllers
                     if (!profile.UserId.Equals(UID))
                     {
                         TempData["mesage"] = "Nu aveti dreptul sa faceti modificari unui profil care nu va apartine";
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Index","Image");
                     }
                     else
                     {
@@ -128,7 +136,7 @@ namespace ProiectDaw1.Controllers
                             profile.Language = requestProfile.Language;
                             db.SaveChanges();
                         }
-                        return RedirectToAction("Index");
+                        return RedirectToAction("View", "Profile", new { id = id});
                     }
                 }
                 else
@@ -185,7 +193,10 @@ namespace ProiectDaw1.Controllers
                 return RedirectToAction("Index","Image");
             }
         }
-
+        public ActionResult Search(string searching)
+        {
+            return View(db.Profiles.Where(x => x.Nickname.Contains(searching) || searching == null).ToList());
+        }
 
     }
 }
